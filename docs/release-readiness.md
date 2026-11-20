@@ -1,6 +1,6 @@
 # Public release audit
 
-**Status:** Local release candidate verified on macOS. Before public release, complete the live OpenAI acceptance check with a dedicated test key. Cross-browser and CI coverage remain open as described below.
+**Historical assessment:** The original preparation findings below are retained for context. Current validation, fixes and the publication gate are in [release-validation.md](release-validation.md). Live OpenAI acceptance was not executed and the owner explicitly waived that publication gate; the newer report supersedes the older test status and checklist below.
 
 ## Assessment and findings
 
@@ -58,13 +58,4 @@ The Models endpoint checks access. The Responses endpoint processes the selected
 
 Run `npm ci`, `npm run build`, and `npm start`. Open the printed loopback address. In **OpenAI key**, enter a dedicated OpenAI project key with the selected model enabled and select **Validate**. Upload `docs/juniper-plan.png` and select **Analyse plan**. Review the result against the drawing, confirm the 880 cm overall span and 270 cm ceiling, generate 3D, and make a small edit. Export and reimport a project, refresh and reopen it, export GLB and open it in `/verify.html`. Repeat browser smoke with PNG, JPEG and a multipage PDF in Chrome and Safari. Remove the test key after validation.
 
-When approved for publication, run the following from the public candidate root. Substitute the new repository URL. Inspect the listed paths and the single baseline commit before adding the remote.
-
-```sh
-git status --short --branch
-git ls-files
-git log --oneline --all
-git remote -v
-git remote add origin https://github.com/OWNER/REPOSITORY.git
-git push -u origin main
-```
+The GitHub remote is now configured. Do not rerun initial remote setup. Consult the current validation report and obtain explicit owner approval after every mandatory check passes before publishing local changes. No push is authorized by this historical document.

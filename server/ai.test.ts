@@ -105,6 +105,11 @@ test.each([
     "billing",
   ],
   [429, Response.json({}, { status: 429 }), "rate limit"],
+  [422, Response.json({}, { status: 403 }), "cannot access"],
+  [422, Response.json({}, { status: 404 }), "cannot access"],
+  [502, Response.json({}, { status: 500 }), "could not complete"],
+  [502, Response.json({ status: "incomplete", output: [] }), "incomplete"],
+  [502, out("output_text", "not JSON"), "invalid floor-plan"],
   [422, out("refusal"), "declined"],
   [502, out("output_text", "{}"), "invalid floor-plan"],
 ])(
@@ -185,6 +190,21 @@ test("does not return a credential that appears in parsed provider output", asyn
       const response = await post(url);
       expect(response.status).toBe(502);
       expect(await response.text()).not.toContain(fakeKey);
+    },
+  );
+});
+
+test("redacts network errors rather than forwarding provider exception details", async () => {
+  await service(
+    async () => {
+      throw Error("Network error with " + fakeKey);
+    },
+    async (url) => {
+      const response = await post(url);
+      expect(response.status).toBe(502);
+      const text = await response.text();
+      expect(text).toContain("Could not reach OpenAI");
+      expect(text).not.toContain(fakeKey);
     },
   );
 });

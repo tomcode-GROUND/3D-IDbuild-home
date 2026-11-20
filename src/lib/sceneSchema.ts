@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "./validation.ts";
 
 const finite = z.number().min(-1e7).max(1e7);
 const positive = finite.check(z.gt(0));

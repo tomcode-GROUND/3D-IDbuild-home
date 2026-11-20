@@ -186,8 +186,9 @@ export default function App({
   }
   async function exportGlb() {
     try {
-      const b = await viewer.current?.exportGlb();
-      if (b) download(b, "IDbuild-scene.glb");
+      if (!viewer.current) throw Error("Open the 3D view before exporting GLB.");
+      const b = await viewer.current.exportGlb();
+      download(b, "IDbuild-scene.glb");
       setStatus(
         "GLB exported · set HDR lighting and post effects separately in other renderers.",
       );

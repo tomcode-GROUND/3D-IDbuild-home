@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "./validation.ts";
 import { parseHomeXml } from "./sh3d.ts";
 import type { HomeModel } from "./types.ts";
 

@@ -46,3 +46,5 @@ npm run build
 - If a model references remote textures, re-export it as a self-contained GLB. Import limits and local project recovery are described in the editing workflow above.
 
 React and TypeScript power the editor. PNG/JPEG and PDF.js decoding, geometry preparation and project persistence run in the browser. The local Node adapter forwards OpenAI requests, validates responses and returns bounded trace data. See [AGENTS.md](AGENTS.md), [CONTRIBUTING.md](CONTRIBUTING.md), [SECURITY.md](SECURITY.md), and [third-party notices](THIRD_PARTY_NOTICES.md). Original application code and the fictional demo are under the [MIT licence](LICENSE).
+
+Release validation and remaining live-API requirements are recorded in the [local validation report](docs/release-validation.md). Browser checks use actual Chrome and Safari; mocked AI tests do not establish real OpenAI interpretation accuracy.

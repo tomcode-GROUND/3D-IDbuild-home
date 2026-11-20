@@ -1,5 +1,5 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
-import { z } from "zod";
+import { z } from "../src/lib/validation.ts";
 import {
   parseProposal,
   proposalSchema,

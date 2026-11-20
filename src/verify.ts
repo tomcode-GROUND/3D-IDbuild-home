@@ -1,4 +1,5 @@
 import * as T from "three";
+import { fitOverview } from "./lib/cameraFit";
 import { loadLocalGlb } from "./lib/localGlb";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
@@ -22,10 +23,7 @@ async function load(bytes: ArrayBuffer) {
     if (model) scene.remove(model);
     model = g.scene;
     scene.add(model);
-    const b = new T.Box3().setFromObject(model),
-      c = b.getCenter(new T.Vector3());
-    camera.position.set(c.x + 14, 14, c.z + 14);
-    controls.target.copy(c);
+    controls.target.copy(fitOverview(camera, new T.Box3().setFromObject(model)));
     let meshes = 0;
     model.traverse((o) => {
       if (o instanceof T.Mesh) meshes++;

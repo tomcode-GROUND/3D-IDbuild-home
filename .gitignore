@@ -54,3 +54,10 @@ service-account*.json
 *.glb
 !public/fixtures/juniper.sh3d
 !public/fixtures/juniper-v2.fdwz3d
+
+# Local browser QA evidence may contain request headers or user uploads
+qa-artifacts/
+test-results/
+playwright-report/
+.auth/
+*.har

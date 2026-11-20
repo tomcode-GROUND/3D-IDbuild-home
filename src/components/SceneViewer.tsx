@@ -9,6 +9,8 @@ import * as T from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { PointerLockControls } from "three/addons/controls/PointerLockControls.js";
 import { TransformControls } from "three/addons/controls/TransformControls.js";
+import { fitOverview } from "../lib/cameraFit";
+import { prepareGlbExport } from "../lib/glbExport";
 import { GLTFExporter } from "three/addons/exporters/GLTFExporter.js";
 import { HDRLoader } from "three/addons/loaders/HDRLoader.js";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
@@ -79,14 +81,9 @@ export const SceneViewer = forwardRef<SceneViewerHandle, Props>(
       if (!r) return;
       const pts = live.current.home.walls.flatMap((w) => [
         new T.Vector3(w.xStart / 100, 0, w.yStart / 100),
-        new T.Vector3(w.xEnd / 100, 3, w.yEnd / 100),
+        new T.Vector3(w.xEnd / 100, w.height / 100, w.yEnd / 100),
       ]);
-      const b = new T.Box3().setFromPoints(pts),
-        c = b.getCenter(new T.Vector3()),
-        s = b.getSize(new T.Vector3());
-      const d = Math.max(s.x, s.z) * 0.8;
-      r.camera.position.set(c.x + d, 14, c.z + d);
-      r.orbit.target.copy(c);
+      r.orbit.target.copy(fitOverview(r.camera, new T.Box3().setFromPoints(pts)));
       r.orbit.update();
     }
     function view(v: Viewpoint) {
@@ -573,7 +570,7 @@ export const SceneViewer = forwardRef<SceneViewerHandle, Props>(
         const r = runtime.current;
         if (!r) throw Error("Scene is not ready");
         await Promise.all([...pending.current]);
-        const result = await new GLTFExporter().parseAsync(r.model, {
+        const result = await new GLTFExporter().parseAsync(prepareGlbExport(r.model), {
           binary: true,
           onlyVisible: true,
         });

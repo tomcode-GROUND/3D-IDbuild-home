@@ -1,6 +1,6 @@
 import { sceneSchema } from "./sceneSchema";
 import { strFromU8, strToU8, zipSync } from "fflate";
-import { z } from "zod";
+import { z } from "./validation.ts";
 import { safeUnzip, parseProjectArchive, parseSh3d } from "./sh3d";
 import { blankReview, parseProposal, reviewSchema } from "./planAnalysis";
 import type { Proposal, Review } from "./planAnalysis";
